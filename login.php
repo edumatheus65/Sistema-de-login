@@ -1,4 +1,29 @@
 <?php
+    //Iniciar a sessão, pois os arquivos estão separados, pois este sistema de login utiliza sessão
+    session_start();
+
+    //If verificar se o usuário já enviou algum dado;
+    if(isset($_POST['email']) && empty($_POST['email']) == false) {
+        $email = ($_POST['email']);
+        $senha = md5($_POST['senha']);
+
+        $db = 'daotest';
+        $host = 'localhost';
+        $user = 'eduardo';
+        $pass = '';
+
+        try {
+            $conn = new PDO("mysql:dbname=$db;host=$host", $user, $pass);
+
+            $stmt = $conn->query("SELECT * FROM usuarios WHERE email = '$email', AND senha = '$senha");
+
+        } catch (PDOException $e) {
+            echo "DEU RUIM" $e->getMessage();
+        }
+
+    }
+
+
 
 ?>
 
@@ -21,7 +46,7 @@
     
     <div class="container">
 
-        <form action="" method="get">
+        <form action="" method="POST">
             <div class="form-group">
                 <label for="email">Digite seu email</label>
                 <input type="text" class="form-control" id="email" name="email" placeholder="Digite seu email">
