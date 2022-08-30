@@ -15,10 +15,23 @@
         try {
             $conn = new PDO("mysql:dbname=$db;host=$host", $user, $pass);
 
-            $stmt = $conn->query("SELECT * FROM usuarios WHERE email = '$email', AND senha = '$senha");
+            $stmt = $conn->query("SELECT * FROM usuarios WHERE email = '$email' AND senha = '$senha'");
+
+            //Verifição se o email e a senha estão corretos, deprende do retorno do resultado;
+            if($stmt->rowCount() > 0) {
+
+                $dado = $stmt->fetch();
+
+                //Salvando o id do usuario na sessão
+                $_SESSION['id'] = $dado['id'];
+
+                header("Location: index.php");
+
+                
+            }
 
         } catch (PDOException $e) {
-            echo "DEU RUIM" $e->getMessage();
+            echo "DEU RUIM " . $e->getMessage();
         }
 
     }
